@@ -1,7 +1,7 @@
 alpha = 'ABCDEFGHIJ'
 N = 10
-start_list = {4:1, 3:0, 2:0, 1:0}
-ship_list = {4:1, 3:0, 2:0, 1:0}
+start_list = {4:1, 3:2, 2:3, 1:4}
+ship_list = {4:1, 3:2, 2:3, 1:4}
 player1_ships_positions = []
 player2_ships_positions = []
 numbers = [str(i) for i in range(1, N+1)]
@@ -49,12 +49,12 @@ def check_zero():
     # lista = []
     if ship_orient == "H" :
         for i in range(ship_size):
-            if help_row[alpha.index(ship_localization[0])][int(ship_localization[1])-1+i] == 0:
+            if help_row[alpha.index(ship_localization[0])][int(ship_localization[1:])-1+i] == 0:
                 lista.append(1)
 
     if ship_orient == "V" :
         for i in range(ship_size):
-            if help_row[alpha.index(ship_localization[0])+i][int(ship_localization[1])-1] == 0:
+            if help_row[alpha.index(ship_localization[0])+i][int(ship_localization[1:])-1] == 0:
                 lista.append(1)
 
     return len(lista) == ship_size
@@ -65,14 +65,14 @@ def check_zero():
 def check_possibility():
     if ship_orient == "H" and check_zero():
         for i in range(-1, 2):
-            for j in range(int(ship_localization[1])-2, ship_size+int(ship_localization[1])):
+            for j in range(int(ship_localization[1:])-2, ship_size+int(ship_localization[1:])):
                 help_row[alpha.index(ship_localization[0]) + i][j] = 1
 
 
     if ship_orient == 'V' and check_zero():
         for j in range(alpha.index(ship_localization[0])-1, ship_size + alpha.index(ship_localization[0])+1):
             for i in range(-1, 2):
-                help_row[j][int(ship_localization[1])-1+i] = 1
+                help_row[j][int(ship_localization[1:])-1+i] = 1
 
 
     return help_row
@@ -90,7 +90,7 @@ def ships_amount(ship_size):
 
 class Ship:
 
-    ship_counter = 1
+    ship_counter = 10
     k = row1
 
     def __init__(self, size, orient, localization):
@@ -101,31 +101,31 @@ class Ship:
 
     def build_ship(self):
         if self.orient == "H":
-            for j in range(int(ship_localization[1])-1, ship_size+int(ship_localization[1])-1):
+            for j in range(int(ship_localization[1:])-1, ship_size+int(ship_localization[1:])-1):
                 Ship.k[alpha.index(ship_localization[0])][j] = "# "
             return table_with_letters(Ship.k, N)
 
 
         elif self.orient == 'V':
             for j in range(alpha.index(ship_localization[0]), ship_size + alpha.index(ship_localization[0])):
-                Ship.k[j][int(ship_localization[1]) - 1] = '# '
+                Ship.k[j][int(ship_localization[1:]) - 1] = '# '
             return table_with_letters(Ship.k, N)
 
 #-------------------------------------------------------------------------------------
 
 def ship_in_list():
     if ship_orient == 'H' and players ==2:
-        single_ship = [str(ship_localization[0]) + str(i) for i in range(int(ship_localization[1]), ship_size+int(ship_localization[1]))]
+        single_ship = [str(ship_localization[0]) + str(i) for i in range(int(ship_localization[1:]), ship_size+int(ship_localization[1:]))]
         player1_ships_positions.append(single_ship)
     if ship_orient == 'V' and players == 2:
-        single_ship = [str(alpha[alpha.index(ship_localization[0])+i]) + str(ship_localization[1]) for i in range(ship_size)]
+        single_ship = [str(alpha[alpha.index(ship_localization[0])+i]) + str(ship_localization[1:]) for i in range(ship_size)]
         player1_ships_positions.append(single_ship)
     if ship_orient == 'H' and players == 1:
         single_ship = [str(ship_localization[0]) + str(i) for i in
-                       range(int(ship_localization[1]), ship_size + int(ship_localization[1]))]
+                       range(int(ship_localization[1:]), ship_size + int(ship_localization[1:]))]
         player2_ships_positions.append(single_ship)
     if ship_orient == 'V' and players == 1:
-        single_ship = [str(alpha[alpha.index(ship_localization[0]) + i]) + str(ship_localization[1]) for i in
+        single_ship = [str(alpha[alpha.index(ship_localization[0]) + i]) + str(ship_localization[1:]) for i in
                        range(ship_size)]
         player2_ships_positions.append(single_ship)
 
@@ -138,8 +138,8 @@ def check_the_ship(ship_position):
             i[i.index(shot)] = '0'
             print('Well done!! You have shoot '+ str(len(i)))
             print('You still need to shoot ' + str(len(i) - i.count('0')) + ' times to sink this ship.')
-        else:
-            print('Ship ' + str(len(i)) +' destroyed!!')
+        # else:
+        #     print('Ship ' + str(len(i)) +' destroyed!!')
 
 
 
@@ -181,7 +181,7 @@ while players != 0:
 
     Ship.k = row2
     # lista = []
-    Ship.ship_counter = 1
+    Ship.ship_counter = 10
     players -=1
     ship_list = start_list
 
@@ -204,10 +204,10 @@ class Player_Fields:
             self.row.append(['0 '] * N)
         table_with_letters(self.row, N)
 
-player1 = Player_Fields('P1', 4, [], 0)
-player2 = Player_Fields('P2', 4, [], 0)
+player1 = Player_Fields('P1', 30, [], 0)
+player2 = Player_Fields('P2', 30, [], 0)
 
-print('Time to shoot. Each of You have 40 shots. Winner is person,  who will')
+print('Time to shoot. Each of You have 30 shots. Winner is person,  who will')
 print('have more destroyed ships during game.')
 player_name = str(input('Choose who will start. Player One (P1) or Player Two (P2): '))
 
@@ -230,19 +230,19 @@ def shot_making(play):
 #---------------------------------------------------------------------------------
 
 def shooting_game(play, ships_positions, row_type):
-    if row_type[alpha.index(shot[0])][int(shot[1]) - 1] == "# ":
-        play.row[alpha.index(shot[0])][int(shot[1]) - 1] = "X "
+    if row_type[alpha.index(shot[0])][int(shot[1:]) - 1] == "# ":
+        play.row[alpha.index(shot[0])][int(shot[1:]) - 1] = "X "
         play.result +=1
         play.game_field()
         check_the_ship(ships_positions)
 
 def missed_shot(play):
     print('You missed. Maybe next time')
-    play.row[alpha.index(shot[0])][int(shot[1]) - 1] = "* "
+    play.row[alpha.index(shot[0])][int(shot[1:]) - 1] = "* "
 
 
 def P1_game():
-    while player1.result != 4:
+    while player1.result != 20:
         if player1.shots > 0:
             shot_making(player1)
             if check_true(player2_ships_positions):
@@ -253,15 +253,17 @@ def P1_game():
                 player_name = 'P2'
                 print(player_name)
                 P2_game()
+        # else:
+        #     print()
+        elif player2.shots > 0:
+            print('Out of shots!!. Player 2 turn')
+            P2_game()
         else:
-            print()
-            if player2.shots > 0:
-                print('Out of shots!!. Player 2 turn')
-                P2_game()
+            break
 
 
 def P2_game():
-    while player2.result != 4:
+    while player2.result != 20:
         if player2.shots > 0:
             shot_making(player2)
             if check_true(player1_ships_positions):
@@ -272,23 +274,27 @@ def P2_game():
                 player_name = 'P1'
                 print(player_name)
                 P1_game()
+        # else:
+        #     print()
+        elif player1.shots > 0:
+            print('Out of shots!!. Player 1 turn.')
+            P1_game()
         else:
-            print()
-            if player1.shots > 0:
-                print('Out of shots!!. Player 1 turn.')
-                P1_game()
+            break
 
 
 if player_name == 'P1' and player1.shots > 0:
     P1_game()
 elif player_name == 'P2' and player2.shots > 0:
     P2_game()
-if player1.result == 4 or player2.result == 4 :
+if player1.result == 20 or player2.result == 20 or player1.shots == 0 or player2.shots == 0 :
     print('Game over.')
     print('These are resuts of war: ')
     print('Player 1 have: ' + str(player1.result) + ' points')
     print('Player 2 have: ' + str(player2.result) + ' points')
 if player1.result > player2.result:
     print('Player 1 is a WINNER!! GRATS !!!!')
-else:
+elif player1.result < player2.result:
     print('Player 2 is a WINNER!! GRATS !!!!')
+else:
+    print('You have the same amount of point!! nobody is WINNER')
