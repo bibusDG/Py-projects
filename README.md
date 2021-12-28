@@ -5,3 +5,4 @@ just few project based on simple games or tasks.
 - warships - war ship game
 - elephants - permutations to single cases
 - lottery - guesing game
+- Sudoku - sudoku game with gaphic interface in Tkinter
