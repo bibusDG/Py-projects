@@ -6,3 +6,4 @@ just few project based on simple games or tasks.
 - elephants - permutations to single cases
 - lottery - guesing game
 - Sudoku - sudoku game with gaphic interface in Tkinter
+- Hangman - text based game
