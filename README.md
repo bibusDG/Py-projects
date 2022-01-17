@@ -7,3 +7,4 @@ just few project based on simple games or tasks.
 - lottery - guesing game
 - Sudoku - sudoku game with gaphic interface in Tkinter
 - Hangman - text based game
+- BlackJack - text card game
